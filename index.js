@@ -11,6 +11,7 @@ const usuarioController = require('./usuarioController');
 const clienteController = require('./clienteController');
 const dispositivoController = require('./dispositivoController');
 const sesionController = require('./sesionController');
+const accesoController = require('./accesoController');
 
 app.use(express.json());
 
@@ -88,11 +89,19 @@ app.post('/crearDispositivo', async(req, res) => {
   res.send({ msg: respuesta });
 });
 
+app.post('/concederAcceso', async(req, res) => {
+  let datos = req.body;
+  let respuesta = await accesoController.concederAcceso(datos);
+  res.send({ msg: respuesta });
+});
+
+
 app.post('/crearSesion', async(req, res) => {
   let datos = req.body;
   let respuesta = await sesionController.crearSesion(datos);
   res.send({ msg: respuesta });
 });
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port${port}`);
