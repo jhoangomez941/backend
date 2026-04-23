@@ -26,6 +26,14 @@ const usuarioSchema = new mongoose.Schema({
         enum: ["admin", "usuario", "editor"],
         default: "usuario"
     },
+    telefono: {
+        type: String
+    },
+
+    cliente_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cliente'
+    },
     fechaRegistro: {
         type: Date,
         default: Date.now

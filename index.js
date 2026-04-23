@@ -1,14 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-//const auth =require( '.middleware/auth');
-//const jwt=require('jsonwebtoken');
+
 const bcrypt=require('bcryptjs');
 const app = express();
 const port =3000;
 
 const Usuario = require('./Usuario');
 const usuarioController = require('./usuarioController');
+const clienteController = require('./clienteController');
+const dispositivoController = require('./dispositivoController');
+const sesionController = require('./sesionController');
 
 app.use(express.json());
 
@@ -67,41 +69,31 @@ app.post('/crearUsuario', async(req, res) => {
   res.send(payload);
 });
 
+
+app.post('/crearCliente', async(req, res) => {
+  let datos = req.body;
+  console.log("Datos recibidos para cliente:", datos); 
+  let respuesta = await clienteController.crearCliente(datos);
+
+  let payload = {
+    msg : respuesta
+  }
+  res.send(payload);
+});
+
+
+app.post('/crearDispositivo', async(req, res) => {
+  let datos = req.body;
+  let respuesta = await dispositivoController.crearDispositivo(datos);
+  res.send({ msg: respuesta });
+});
+
+app.post('/crearSesion', async(req, res) => {
+  let datos = req.body;
+  let respuesta = await sesionController.crearSesion(datos);
+  res.send({ msg: respuesta });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port${port}`);
 });
-
-/*
-// Importar el controlador y el middleware
-//const usuariocontroller = require('./usuarioController');
-const verificarToken = require('./middleware/auth');
-
-//app.use(express.json());
-
-// ==========================================
-// RUTAS PÚBLICAS (No usan el middleware)
-// ==========================================
-// El login debe ser público para que el usuario pueda obtener su token
-app.post('/api/login', usuarioController.login);
-
-// Si tienes una ruta de registro, usualmente también es pública
-// app.post('/api/usuarios/registro', usuarioController.crearUsuario); 
-
-
-// ==========================================
-// RUTAS PROTEGIDAS (Usan el middleware)
-// ==========================================
-
-// Opción A: Aplicar el middleware ruta por ruta
-// Pasas `verificarToken` como segundo parámetro, antes del controlador
-app.get('/api/usuarios', verificarToken, usuarioController.obtenerUsuarios);
-app.put('/api/usuarios/:id', verificarToken, usuarioController.crearUsuario);
-
-// Opción B: Proteger un grupo de rutas globalmente
-// Todo lo que declares debajo de `app.use(verificarToken)` requerirá autenticación
-// app.use(verificarToken);
-// app.get('/api/datos-sensibles', algunControlador.obtenerDatos);
-
-app.listen(3000, () => {
-    console.log('Servidor corriendo en el puerto 3000');
-});*/
