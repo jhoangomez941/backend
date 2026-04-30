@@ -60,7 +60,7 @@ var payload = {
   res.send(payload);
 });
 
-app.post('/crearUsuario',auth,async(req, res) => {
+app.post('/crearUsuario',async(req, res) => {
   let datos = req.body;
   console.log(datos); 
   let respuesta = await usuarioController.crearUsuario(datos);
@@ -85,13 +85,13 @@ app.post('/crearCliente', async(req, res) => {
 });
 
 
-app.post('/crearDispositivo', async(req, res) => {
+app.post('/crearDispositivo', auth, async(req, res) => {
   let datos = req.body;
   let respuesta = await dispositivoController.crearDispositivo(datos);
   res.send({ msg: respuesta });
 });
 
-app.post('/concederAcceso', async(req, res) => {
+app.post('/concederAcceso', auth, async(req, res) => {
   let datos = req.body;
   let respuesta = await accesoController.concederAcceso(datos);
   res.send({ msg: respuesta });

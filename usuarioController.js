@@ -56,8 +56,11 @@ login = async (datos) => {
     if (!usuario) 
       return 'Usuario no encontrado'
    
-    if (!usuario.clave) 
-      return 'Clave incorrecta'
+    /* if (!usuario.clave) 
+      return 'Clave incorrecta'*/
+
+    const claveCorrecta = await bcrypt.compare(clave, usuario.clave);
+    if (!claveCorrecta) return 'Clave incorrecta';
 
 
     const payload = { usuario: { id: usuario.id } };

@@ -1,5 +1,5 @@
 const DispositivoECG = require('./DispositivoECG');
-
+const jwt = require('jsonwebtoken');
 const crearDispositivo = async (datos) => {
   try {
     if (!datos.serial) return 'Falta el serial del dispositivo';

@@ -20,7 +20,7 @@ const sesionECGSchema = new mongoose.Schema({
         default: "grabando" 
     },
 
-    // 🔥 El núcleo: Arreglo para guardar la gráfica del ECG 🔥
+    //  El núcleo: Arreglo para guardar la gráfica del ECG 
     datosSeñal: [{
         tiempoMs: Number,
         voltaje: Number

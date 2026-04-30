@@ -29,7 +29,7 @@ const accesoSchema = new mongoose.Schema({
     }
 });
 
-// 🔥 Regla de Seguridad: Previene duplicados exactos 🔥
+//  Regla de Seguridad: Previene duplicados exactos 
 // Un doctor no puede tener dos permisos activos al mismo tiempo sobre el mismo paciente
 accesoSchema.index({ paciente_id: 1, doctor_id: 1 }, { unique: true });
 

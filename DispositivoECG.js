@@ -11,7 +11,7 @@ const dispositivoSchema = new mongoose.Schema({
         type: String,
         required: [true, "El modelo del dispositivo es obligatorio"]
     },
-    // 🔥 Reemplazamos la tabla EstadoDispositivo con este enum 🔥
+    //Reemplazamos la tabla EstadoDispositivo con este enum 
     estado: {
         type: String,
         enum: ["activo", "mantenimiento", "dañado"],
