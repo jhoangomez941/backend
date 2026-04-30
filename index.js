@@ -27,7 +27,7 @@ console.log ("conectado")
 
 
 
-app.get('/', (req, res) => {
+app.get('/', auth,(req, res) => {
 var payload = {
     mensaje: "Hola Mundo!",  
   }
@@ -104,12 +104,6 @@ app.post('/login', async(req, res) => {
   res.send({ msg: respuesta });
 });
 
-
-/*app.post('/crearSesion', async(req, res) => {
-  let datos = req.body;
-  let respuesta = await sesionController.crearSesion(datos);
-  res.send({ msg: respuesta });
-});*/
 
 
 app.listen(port, () => {
