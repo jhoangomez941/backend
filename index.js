@@ -12,6 +12,7 @@ const auth = require('./middleware/auth');
 const dispositivoController = require('./dispositivoController');
 const senalController = require('./senalController');
 const codigoController = require('./codigoController');
+const diagnosticoController = require('.//diagnosticoController');
 app.use(express.json());
 
 console.log("start");
@@ -66,6 +67,7 @@ app.put('/dispositivos/vincular', dispositivoController.VincularDispositivo);
 app.post('/recibir',senalController.Recibirpaquetedatos);
 // Ruta para que el administrador genere códigos nuevos
 app.post('/codigos/crear', codigoController.crearCodigo);
+app.post('/diagnosticos/crear', diagnosticoController.crearDiagnostico);
 // Usamos PUT porque no estamos creando un equipo nuevo, sino "actualizando" uno que ya existe
 
 // Ruta protegida

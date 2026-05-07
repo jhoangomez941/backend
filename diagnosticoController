@@ -1,0 +1,42 @@
+const Diagnostico= require ('./Diagnostico');
+const Usuario=require('./Usuario');
+
+
+const crearDiagnostico = async (req, res) =>{
+    try{
+
+        const{doctor_id,paciente_id,observaciones}=req.body;
+
+
+        const doctor = await Usuario.findById(doctor_id);
+
+        if(!doctor||doctor.rol !=='doctor'){
+
+            return res.status(400).json({mensaje:"el ID proporcionado no pertenece a un doctor"});
+
+        }
+        const paciente = await Usuario.findById(paciente_id);
+        if(!paciente || paciente.rol !=='paciente'){
+             return res.status(400).json({mensaje:"el ID proporcionado no pertenece a un paciente"});
+        }
+        const nuevoDiagnostico = new Diagnostico({
+            doctor_id,
+            paciente_id,
+            observaciones
+        });
+        await nuevoDiagnostico.save();
+        res.status(201).json({
+            mensaje: "Diagnóstico guardado exitosamente",
+            diagnostico: nuevoDiagnostico
+        });
+
+
+
+    }catch(error){
+        console.error("Error al crear diagnóstico:", error);
+        res.status(500).json({ mensaje: "Error del servidor", error: error.message });
+    }
+};
+module.exports ={
+    crearDiagnostico
+};

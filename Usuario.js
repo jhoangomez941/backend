@@ -56,6 +56,7 @@ const usuarioSchema = new mongoose.Schema({
     }
 
 
+
 });
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);
