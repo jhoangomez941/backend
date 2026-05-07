@@ -23,21 +23,39 @@ const usuarioSchema = new mongoose.Schema({
     rol: {
         type: String,
         required: [true, "El rol es obligatorio"],
-        enum: ["admin", "usuario", "editor"],
-        default: "usuario"
+        enum: ["admin", "paciente", "doctor","hospital"],
+        default: "paciente"
     },
     telefono: {
-        type: String
+        type: String,
+        required: [true, "El telefono es obligatorio"],
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+    codigo_activacion:{
+         unique: true,
+         sparse: true,
+         type: String,
+         lowercase: true,
+         trim: true
+    },
+    estado:{
+        type: String,
+        enum:["activado" , "desactivado"],
+        default: "activado"
     },
 
-    cliente_id: {
+    creado_por_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cliente'
+        ref: 'Usuario'
     },
     fechaRegistro: {
         type: Date,
         default: Date.now
     }
+
+
 });
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);

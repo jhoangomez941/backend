@@ -8,13 +8,10 @@ const port =3000;
 
 const Usuario = require('./Usuario');
 const usuarioController = require('./usuarioController');
-const clienteController = require('./clienteController');
-const dispositivoController = require('./dispositivoController');
-const sesionController = require('./sesionController');
-const accesoController = require('./accesoController');
 const auth = require('./middleware/auth');
-
-
+const dispositivoController = require('./dispositivoController');
+const senalController = require('./senalController');
+const codigoController = require('./codigoController');
 app.use(express.json());
 
 console.log("start");
@@ -22,12 +19,12 @@ conectar().catch(err => console.log(err));
 
 async function conectar() {
   await mongoose.connect(process.env.MONGO_URI);
-console.log ("conectado")
+console.log ("conectado a mongo ")
 }
 
 
 
-app.get('/', auth,(req, res) => {
+app.get('/',(req, res) => {
 var payload = {
     mensaje: "Hola Mundo!",  
   }
@@ -60,6 +57,43 @@ var payload = {
   res.send(payload);
 });
 
+
+app.post('/registro', usuarioController.registrarUsuario);
+app.post('/login', usuarioController.login);
+// Rutas de Dispositivos
+app.post('/dispositivos/crear', dispositivoController.crearDispositivo);
+app.put('/dispositivos/vincular', dispositivoController.VincularDispositivo); 
+app.post('/recibir',senalController.Recibirpaquetedatos);
+// Ruta para que el administrador genere códigos nuevos
+app.post('/codigos/crear', codigoController.crearCodigo);
+// Usamos PUT porque no estamos creando un equipo nuevo, sino "actualizando" uno que ya existe
+
+// Ruta protegida
+app.get('/perfil', auth, (req, res) => {
+    res.json({ 
+        mensaje: "¡Bienvenido a la zona VIP!",
+        tusDatosDelToken: req.usuario // Aquí veremos qué extrajo el middleware
+    });
+});
+
+
+// Ruta para recibir los datos del hardware
+
+
+
+
+app.listen(port, () => {
+  console.log(`Example app listening on port${port}`);
+});
+
+/*const clienteController = require('./clienteController');
+const dispositivoController = require('./dispositivoController');
+const sesionController = require('./sesionController');
+const accesoController = require('./accesoController');
+const auth = require('./middleware/auth');*/
+
+/*
+
 app.post('/crearUsuario',async(req, res) => {
   let datos = req.body;
   console.log(datos); 
@@ -71,6 +105,7 @@ app.post('/crearUsuario',async(req, res) => {
   }
   res.send(payload);
 });
+
 
 
 app.post('/crearCliente', async(req, res) => {
@@ -103,9 +138,4 @@ app.post('/login', async(req, res) => {
   let respuesta = await usuarioController.login(datos);
   res.send({ msg: respuesta });
 });
-
-
-
-app.listen(port, () => {
-  console.log(`Example app listening on port${port}`);
-});
+*/
